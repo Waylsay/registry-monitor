@@ -15,7 +15,6 @@ def get_datetime ():
     return time.log
 def get_all_records():
     global log
-    global logs
     BASE_URL = "https://pub.fsa.gov.ru"
 
     USERNAME = "anonymous"
@@ -113,14 +112,10 @@ def get_all_records():
     log += f"{get_datetime()} \nЗагрузка завершена. Всего записей: {len(all_records)}\n"
     # with open(datetime.datetime.now().strftime('%Y.%m.%d')+"_registry.json", "w", encoding="utf-8") as file:
     #     json.dump(all_records, file, ensure_ascii=False, indent=2)
-    if logs == True:
-        with open(datetime.datetime.now().strftime('%Y.%m.%d')+".log", "a", encoding="utf-8") as file:
-            file.write(log)
     return all_records
 
 def compare_records(new_records, filename="registry.json"):
     global log
-    global logs
     # Если предыдущей выгрузки ещё нет
     if not os.path.exists(filename):
         with open(filename, "w", encoding="utf-8") as file:
@@ -163,14 +158,10 @@ def compare_records(new_records, filename="registry.json"):
     # Сохраняем актуальную выгрузку
     with open(filename, "w", encoding="utf-8") as file:
         json.dump(new_records, file, ensure_ascii=False, indent=2)
-    if logs == True:
-        with open(datetime.datetime.now().strftime('%Y.%m.%d')+".log", "a", encoding="utf-8") as file:
-            file.write(log)
     return added, changed, deleted
 
 def send_notifications(added, changed):
     global log
-    global logs
     messages = []
 
     for record in added:
@@ -226,9 +217,6 @@ def send_notifications(added, changed):
 
     except Exception as e:
         log += get_datetime() + f"Ошибка отправки email: {e}"+ "\n"
-    if logs == True:
-        with open(datetime.datetime.now().strftime('%Y.%m.%d')+".log", "a", encoding="utf-8") as file:
-            file.write(log)
 
 records = get_all_records()
 added, changed, deleted = compare_records(records)
@@ -259,6 +247,6 @@ for record in deleted:
     log += f"Организация: {record.get('fullName')}\n"
     log += f"Номер: {record.get('regNumber')}\n"
 
-if logs == True:
+if logs == "True":
     with open(datetime.datetime.now().strftime('%Y.%m.%d')+".log", "a", encoding="utf-8") as file:
         file.write(log)

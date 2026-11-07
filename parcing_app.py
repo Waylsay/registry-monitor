@@ -8,6 +8,8 @@ from telegram import send_telegram
 from email_sendler import send_email
 from dotenv import load_dotenv
 load_dotenv()
+logs = os.getenv("logs")
+log = os.getenv("log")
 def get_datetime ():
     time.log = datetime.datetime.now().strftime('%Y.%m.%d %H:%M')
     return time.log
@@ -238,24 +240,24 @@ log += f"Удалённых записей: {len(deleted)}\n"
 
 for record in added:
     log += f"{get_datetime()}\nНОВАЯ ЗАПИСЬ:\n"
-    log += f"Организация: {record.get("fullName")}\n"
-    log += f"Номер: {record.get("regNumber")}\n"
-    log += f"Статус: {record.get("nameStatus")}\n"
+    log += f"Организация: {record.get('fullName')}\n"
+    log += f"Номер: {record.get('regNumber')}\n"
+    log += f"Статус: {record.get('nameStatus')}\n"
 
 for change in changed:
     old = change["old"]
     new = change["new"]
 
     log += f"{get_datetime()}\nИЗМЕНЕНИЕ СТАТУСА:\n"
-    log += f"Организация: {new.get("fullName")}\n"
-    log += f"Номер: {new.get("regNumber")}\n"
-    log += f"Было: {old.get("nameStatus")}\n"
-    log += f"Стало: {new.get("nameStatus")}\n"
+    log += f"Организация: {new.get('fullName')}\n"
+    log += f"Номер: {new.get('regNumber')}\n"
+    log += f"Было: {old.get('nameStatus')}\n"
+    log += f"Стало: {new.get('nameStatus')}\n"
 
 for record in deleted:
     log += f"{get_datetime()}\nУДАЛЕНА ЗАПИСЬ:\n"
-    log += f"Организация: {record.get("fullName")}\n"
-    log += f"Номер: {record.get("regNumber")}\n"
+    log += f"Организация: {record.get('fullName')}\n"
+    log += f"Номер: {record.get('regNumber')}\n"
 
 if logs == True:
     with open(datetime.datetime.now().strftime('%Y.%m.%d')+".log", "a", encoding="utf-8") as file:

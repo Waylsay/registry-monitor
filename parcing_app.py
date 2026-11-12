@@ -114,7 +114,7 @@ def get_all_records():
     #     json.dump(all_records, file, ensure_ascii=False, indent=2)
     return all_records
 
-def compare_records(new_records, filename="registry.json"):
+def compare_records(new_records, filename="data/registry.json"):
     global log
     # Если предыдущей выгрузки ещё нет
     if not os.path.exists(filename):

@@ -6,5 +6,6 @@ venv/
 *.db
 *.log
 state/
-*.json
 *.log
+data/*
+!data/.gitkeep
